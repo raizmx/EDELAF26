@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuenta regresiva para 23 de marzo de 2026</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fdfdfd;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+    #contador {
+      font-size: 2.5em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cuenta regresiva para el 23 de marzo de 2026</h1>
+  <div id="contador">Cargando…</div>
+
+  <script>
+    // Fecha objetivo: 23 de marzo de 2026 a medianoche (hora local del navegador)
+    const objetivo = new Date('2026-03-23T00:00:00').getTime();
+
+    function actualizar() {
+      const ahora = new Date().getTime();
+      const diferencia = objetivo - ahora;
+
+      if (diferencia < 0) {
+        document.getElementById('contador').textContent = '¡La fecha ha llegado!';
+        clearInterval(intervalo);
+        return;
+      }
+
+      const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+      document.getElementById('contador').textContent =
+        dias + 'd ' + horas.toString().padStart(2, '0') + 'h ' +
+        minutos.toString().padStart(2, '0') + 'm ' +
+        segundos.toString().padStart(2, '0') + 's';
+    }
+
+    // Ejecutar actualización inmediatamente y cada segundo
+    actualizar();
+    const intervalo = setInterval(actualizar, 1000);
+  </script>
+</body>
+</html>
