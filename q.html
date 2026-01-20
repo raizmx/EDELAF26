@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario: Ángulos y Triángulos</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; color: #333; display: flex; justify-content: center; padding: 20px; }
+        #quiz-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; width: 100%; }
+        h2 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .question { display: none; margin-bottom: 20px; }
+        .question.active { display: block; }
+        .question-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; }
+        .options-list { list-style: none; padding: 0; }
+        .option-item { margin-bottom: 10px; }
+        .option-btn { width: 100%; text-align: left; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+        .option-btn:hover { background: #eef7ff; border-color: #3498db; }
+        .correct { background-color: #2ecc71 !important; color: white; border-color: #27ae60; }
+        .wrong { background-color: #e74c3c !important; color: white; border-color: #c0392b; }
+        #feedback { margin-top: 15px; font-weight: bold; text-align: center; height: 1.2em; }
+        #progress { margin-bottom: 20px; font-size: 0.9rem; color: #7f8c8d; text-align: right; }
+        .result-screen { text-align: center; display: none; }
+        .btn-next { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 20px; display: none; }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <h2>Evaluación de Geometría</h2>
+    <div id="progress">Pregunta 1 de 10</div>
+    
+    <div id="quiz-content">
+        </div>
+
+    <div id="feedback"></div>
+    <center><button id="btn-next" class="btn-next" onclick="nextQuestion()">Siguiente Pregunta</button></center>
+
+    <div id="result-screen" class="result-screen">
+        <h3>¡Cuestionario Finalizado!</h3>
+        <p id="score-text"></p>
+        <button onclick="location.reload()" class="btn-next" style="display:inline-block">Reiniciar</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "¿Qué punto del transportador debe coincidir con el vértice del ángulo?", a: ["El borde derecho", "El centro o marca central", "La marca de 90°", "Cualquier parte"], c: 1 },
+        { q: "¿Cuánto suman siempre los ángulos internos de cualquier triángulo?", a: ["90°", "360°", "180°", "270°"], c: 2 },
+        { q: "Si un triángulo tiene ángulos de 50° y 60°, ¿cuánto mide el tercer ángulo?", a: ["70°", "80°", "90°", "110°"], c: 0 },
+        { q: "¿Cómo se llama el ángulo que mide exactamente 90°?", a: ["Agudo", "Obtuso", "Recto", "Llano"], c: 2 },
+        { q: "Un ángulo de 120° se clasifica como:", a: ["Agudo", "Recto", "Obtuso", "Nulo"], c: 2 },
+        { q: "Si la suma de los ángulos internos de una figura es 180°, la figura es un:", a: ["Cuadrado", "Triángulo", "Pentágono", "Círculo"], c: 1 },
+        { q: "¿Qué sucede si alineas mal el 'cero' del transportador?", a: ["La medida será exacta", "La medida será errónea", "El ángulo cambia de tamaño", "No pasa nada"], c: 1 },
+        { q: "En un triángulo equilátero, ¿cuánto mide cada uno de sus ángulos?", a: ["45°", "90°", "60°", "30°"], c: 2 },
+        { q: "Si un triángulo tiene un ángulo de 100°, ¿puede tener otro de 90°?", a: ["Sí, siempre", "No, porque superaría los 180°", "Solo si es muy grande", "Tal vez"], c: 1 },
+        { q: "¿Para qué sirve el transportador?", a: ["Para medir distancias", "Para medir la temperatura", "Para medir la abertura de los ángulos", "Para dibujar líneas rectas"], c: 2 }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        const container = document.getElementById('quiz-content');
+        const qData = questions[currentQ];
+        document.getElementById('progress').innerText = `Pregunta ${currentQ + 1} de 10`;
+        
+        let html = `
+            <div class="question active">
+                <p class="question-text">${qData.q}</p>
+                <div class="options-list">
+                    ${qData.a.map((opt, i) => `
+                        <div class="option-item">
+                            <button class="option-btn" onclick="selectOption(${i})">${opt}</button>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        container.innerHTML = html;
+        document.getElementById('feedback').innerText = "";
+        document.getElementById('btn-next').style.display = "none";
+    }
+
+    function selectOption(index) {
+        const qData = questions[currentQ];
+        const buttons = document.querySelectorAll('.option-btn');
+        
+        buttons.forEach(btn => btn.disabled = true);
+
+        if (index === qData.c) {
+            buttons[index].classList.add('correct');
+            document.getElementById('feedback').innerText = "¡Correcto! ✨";
+            document.getElementById('feedback').style.color = "#2ecc71";
+            score++;
+        } else {
+            buttons[index].classList.add('wrong');
+            buttons[qData.c].classList.add('correct');
+            document.getElementById('feedback').innerText = "Incorrecto ❌";
+            document.getElementById('feedback').style.color = "#e74c3c";
+        }
+        
+        document.getElementById('btn-next').style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQ++;
+        if (currentQ < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz-content').style.display = "none";
+        document.getElementById('progress').style.display = "none";
+        document.getElementById('feedback').style.display = "none";
+        document.getElementById('btn-next').style.display = "none";
+        
+        const resultScreen = document.getElementById('result-screen');
+        resultScreen.style.display = "block";
+        document.getElementById('score-text').innerText = `Puntaje: ${score} de 10`;
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>

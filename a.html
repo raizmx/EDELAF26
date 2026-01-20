@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase de Geometría: Ángulos y Triángulos</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+
+    <style>
+        .highlight { color: #00d4ff; font-weight: bold; }
+        .example-box { background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; }
+        .quiz-box { background: #1a1a1a; padding: 25px; border-radius: 15px; border: 2px solid #444; }
+        .option-btn { 
+            display: block; width: 100%; margin: 10px 0; padding: 12px; 
+            font-size: 1rem; cursor: pointer; border: 1px solid #666; 
+            background: #333; color: white; border-radius: 8px; transition: 0.3s;
+        }
+        .option-btn:hover { background: #555; }
+        .correct { background-color: #28a745 !important; }
+        .wrong { background-color: #dc3545 !important; }
+        #feedback { margin-top: 15px; font-weight: bold; font-size: 0.9em; }
+        small { font-size: 0.5em; vertical-align: middle; }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section data-background-gradient="linear-gradient(to bottom, #1e3c72, #2a5298)">
+                <h1>Ángulos y Triángulos</h1>
+                <p>Medición con transportador y propiedades internas</p>
+                <hr>
+                <p><small>Usa las flechas para navegar</small></p>
+            </section>
+
+            <section>
+                <h2>Definiciones</h2>
+                <div class="example-box">
+                    <p><strong>1. Ángulo:</strong> Es la abertura formada por dos semirrectas que se unen en un punto llamado <span class="highlight">vértice</span>.</p>
+                    <p><strong>2. Transportador:</strong> Instrumento graduado que permite medir ángulos en <span class="highlight">grados (°)</span>.</p>
+                    <p><strong>3. Ángulos Internos:</strong> Son los ángulos que se encuentran dentro de una figura cerrada.</p>
+                </div>
+                
+            </section>
+
+            <section>
+                <h2>¿Cómo medir correctamente?</h2>
+                <p>Sigue estos 3 pasos:</p>
+                <ol>
+                    <li class="fragment">Coloca el <strong>centro</strong> del transportador justo en el vértice.</li>
+                    <li class="fragment">Alinea la línea del <strong>cero</strong> con uno de los lados.</li>
+                    <li class="fragment">Observa dónde cruza el otro lado en la escala numérica.</li>
+                </ol>
+                
+            </section>
+
+            <section>
+                <h2>Ejercicios Básicos</h2>
+                <p>Calcula el ángulo faltante ($Suma = 180^{\circ}$)</p>
+                <div class="example-box">
+                    <p>Triángulo A: $60^{\circ} + 60^{\circ} + X = 180^{\circ}$ <br> <span class="fragment highlight">X = 60°</span></p>
+                    <hr>
+                    <p>Triángulo B: $90^{\circ} + 45^{\circ} + X = 180^{\circ}$ <br> <span class="fragment highlight">X = 45°</span></p>
+                </div>
+            </section>
+
+            <section>
+                <h2>En la Vida Real</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <p><strong>La rampa:</strong> Un arquitecto debe medir el ángulo para que sea seguro subir.</p>
+                        
+                    </div>
+                    <div>
+                        <p><strong>El Villar:</strong> El ángulo con el que la bola golpea la mesa define su dirección de rebote.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Evaluación</h2>
+                <div class="quiz-box">
+                    <p id="q-text">Si mides los tres ángulos de un triángulo y la suma te da $190^{\circ}$, ¿qué significa?</p>
+                    <div id="options">
+                        <button class="option-btn" onclick="check(this, false, 'No, la suma siempre debe ser 180°.')">El triángulo es muy grande.</button>
+                        <button class="option-btn" onclick="check(this, true, '¡Correcto! Hubo un error al usar el transportador.')">Debo volver a medir, hay un error.</button>
+                        <button class="option-btn" onclick="check(this, false, 'Incorrecto, esto es imposible físicamente.')">Es un triángulo de lados curvos.</button>
+                    </div>
+                    <p id="feedback"></p>
+                </div>
+            </section>
+
+            <section data-background="#004d40">
+                <h2>¡Resumen Final!</h2>
+                <p>1. El centro al vértice.</p>
+                <p>2. El cero al lado.</p>
+                <p>3. Todo triángulo suma 180°.</p>
+                <h3 class="highlight">¿Listos para practicar en el cuaderno?</h3>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        Reveal.initialize({ hash: true, controls: true, progress: true, center: true });
+
+        function check(btn, isCorrect, msg) {
+            const fb = document.getElementById('feedback');
+            const btns = document.querySelectorAll('.option-btn');
+            btns.forEach(b => b.disabled = true);
+            if(isCorrect) {
+                btn.classList.add('correct');
+                fb.innerHTML = "✅ " + msg;
+                fb.style.color = "#28a745";
+            } else {
+                btn.classList.add('wrong');
+                fb.innerHTML = "❌ " + msg;
+                fb.style.color = "#dc3545";
+            }
+        }
+    </script>
+</body>
+</html>
